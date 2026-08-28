@@ -1076,7 +1076,6 @@
   </div>
 
 </footer>
-
 <script>
   const form = document.getElementById("downloadForm");
   const input = document.getElementById("videoUrl");
@@ -1086,7 +1085,7 @@
   const API_URL =
     "https://express-js-on-vercel-bice-three-81.vercel.app";
 
-  form.addEventListener("submit", async function(event) {
+  form.addEventListener("submit", async function (event) {
     event.preventDefault();
 
     const url = input.value.trim();
@@ -1101,26 +1100,23 @@
     status.textContent = "Connecting to VideoSaver...";
 
     try {
-      const response = await fetch(API_URL + "/download", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          url: url
-        })
-      });
+      const response = await fetch(
+        API_URL + "/download?url=" + encodeURIComponent(url)
+      );
+
+      if (!response.ok) {
+        throw new Error("Server returned " + response.status);
+      }
 
       const data = await response.json();
 
-      if (!response.ok) {
+      if (data.success) {
+        status.textContent =
+          "✓ Connection successful! Your video link was received.";
+      } else {
         status.textContent =
           data.error || "Unable to process this link.";
-        return;
       }
-
-      status.textContent =
-        "✓ Link received successfully. Download processing will be added next.";
 
       console.log("VideoSaver API:", data);
 
@@ -1136,5 +1132,3 @@
   });
 </script>
 
-</body>
-</html>
