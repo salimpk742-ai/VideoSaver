@@ -1,0 +1,776 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>VideoSaver - Download Videos Online</title>
+
+  <meta name="description" content="VideoSaver is a simple online video downloader. Save videos quickly and easily from supported platforms.">
+  <meta name="keywords" content="video downloader, download videos, save videos, online video downloader">
+  <meta name="theme-color" content="#0b1020">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #080c18;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, 92%);
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+
+    header {
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(8,12,24,0.95);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6366f1, #06b6d4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      box-shadow: 0 8px 25px rgba(6,182,212,0.2);
+    }
+
+    nav {
+      display: flex;
+      gap: 25px;
+      color: #aab2c5;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      color: #ffffff;
+    }
+
+    /* HERO */
+
+    .hero {
+      min-height: 650px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: #4f46e5;
+      opacity: 0.12;
+      filter: blur(130px);
+      border-radius: 50%;
+      left: 50%;
+      top: 35%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      width: 100%;
+      z-index: 2;
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(99,102,241,0.12);
+      border: 1px solid rgba(99,102,241,0.25);
+      color: #a5b4fc;
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: clamp(40px, 7vw, 72px);
+      line-height: 1.05;
+      letter-spacing: -2.5px;
+      max-width: 850px;
+      margin: 0 auto 22px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #818cf8, #22d3ee);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-description {
+      max-width: 650px;
+      margin: 0 auto 35px;
+      color: #9da7bd;
+      font-size: 17px;
+    }
+
+    /* DOWNLOADER */
+
+    .download-box {
+      width: min(760px, 100%);
+      margin: 0 auto;
+      padding: 8px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      display: flex;
+      gap: 8px;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.35);
+    }
+
+    .download-box input {
+      flex: 1;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      padding: 18px;
+      border-radius: 11px;
+      background: #111827;
+      color: #ffffff;
+      font-size: 15px;
+    }
+
+    .download-box input::placeholder {
+      color: #667085;
+    }
+
+    .download-btn {
+      border: 0;
+      cursor: pointer;
+      padding: 0 28px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #6366f1, #0891b2);
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      transition: 0.2s;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 30px rgba(99,102,241,0.3);
+    }
+
+    .download-note {
+      margin-top: 15px;
+      color: #667085;
+      font-size: 12px;
+    }
+
+    #message {
+      margin-top: 18px;
+      min-height: 25px;
+      color: #67e8f9;
+      font-size: 14px;
+    }
+
+    /* SECTIONS */
+
+    section {
+      padding: 90px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+      font-size: 36px;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+    }
+
+    .section-title p {
+      color: #8d97aa;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    /* PLATFORMS */
+
+    .platforms {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .platform {
+      padding: 25px 15px;
+      text-align: center;
+      background: #0d1324;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      transition: 0.2s;
+    }
+
+    .platform:hover {
+      transform: translateY(-4px);
+      border-color: rgba(99,102,241,0.4);
+    }
+
+    .platform-icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .platform span {
+      color: #cbd5e1;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* FEATURES */
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .feature {
+      padding: 30px;
+      background: #0d1324;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+    }
+
+    .feature-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(99,102,241,0.13);
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+
+    .feature h3 {
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .feature p {
+      color: #8993a8;
+      font-size: 14px;
+    }
+
+    /* HOW IT WORKS */
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .step {
+      text-align: center;
+      padding: 30px;
+    }
+
+    .step-number {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #6366f1, #0891b2);
+      font-weight: 800;
+    }
+
+    .step h3 {
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      color: #8993a8;
+      font-size: 14px;
+    }
+
+    /* FAQ */
+
+    .faq {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    details {
+      background: #0d1324;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      padding: 20px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    details p {
+      color: #8993a8;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 45px 0;
+      color: #737d91;
+    }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      font-size: 13px;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 800px) {
+      nav {
+        display: none;
+      }
+
+      .hero {
+        min-height: 600px;
+      }
+
+      .download-box {
+        flex-direction: column;
+      }
+
+      .download-box input {
+        width: 100%;
+      }
+
+      .download-btn {
+        min-height: 54px;
+      }
+
+      .platforms {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .features,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 65px 0;
+      }
+
+      .section-title h2 {
+        font-size: 30px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#" class="logo">
+      <div class="logo-icon">▶</div>
+      VideoSaver
+    </a>
+
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#features">Features</a>
+      <a href="#how">How It Works</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+
+  <section class="hero" id="home">
+    <div class="container hero-content">
+
+      <div class="badge">Fast & Simple Video Downloader</div>
+
+      <h1>
+        Save your favorite
+        <span class="gradient-text">videos</span>
+        online
+      </h1>
+
+      <p class="hero-description">
+        VideoSaver makes it simple to save supported online videos.
+        Paste a video link below and get started.
+      </p>
+
+      <form class="download-box" id="downloadForm">
+
+        <input
+          type="url"
+          id="videoUrl"
+          placeholder="Paste video URL here..."
+          autocomplete="off"
+          required
+        >
+
+        <button class="download-btn" type="submit">
+          Download
+        </button>
+
+      </form>
+
+      <div id="message"></div>
+
+      <div class="download-note">
+        Please only download content you have permission to save.
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PLATFORMS -->
+
+  <section>
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Supported Platforms</h2>
+        <p>
+          VideoSaver is designed to support popular video platforms.
+        </p>
+      </div>
+
+      <div class="platforms">
+
+        <div class="platform">
+          <div class="platform-icon">▶️</div>
+          <span>YouTube</span>
+        </div>
+
+        <div class="platform">
+          <div class="platform-icon">🎵</div>
+          <span>TikTok</span>
+        </div>
+
+        <div class="platform">
+          <div class="platform-icon">📷</div>
+          <span>Instagram</span>
+        </div>
+
+        <div class="platform">
+          <div class="platform-icon">f</div>
+          <span>Facebook</span>
+        </div>
+
+        <div class="platform">
+          <div class="platform-icon">𝕏</div>
+          <span>X</span>
+        </div>
+
+        <div class="platform">
+          <div class="platform-icon">▶</div>
+          <span>Vimeo</span>
+        </div>
+
+        <div class="platform">
+          <div class="platform-icon">R</div>
+          <span>Reddit</span>
+        </div>
+
+        <div class="platform">
+          <div class="platform-icon">+</div>
+          <span>More</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+
+  <section id="features">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Why VideoSaver?</h2>
+        <p>
+          Everything you need for a simple and convenient downloading experience.
+        </p>
+      </div>
+
+      <div class="features">
+
+        <div class="feature">
+          <div class="feature-icon">⚡</div>
+          <h3>Fast</h3>
+          <p>
+            A simple interface designed to get you from link to download quickly.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">📱</div>
+          <h3>Mobile Friendly</h3>
+          <p>
+            Use VideoSaver comfortably on phones, tablets and desktop computers.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">🎯</div>
+          <h3>Easy to Use</h3>
+          <p>
+            No complicated software. Paste your link and follow the download process.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">🌐</div>
+          <h3>Online</h3>
+          <p>
+            Access VideoSaver directly from your browser without installing software.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">🔒</div>
+          <h3>Privacy Focused</h3>
+          <p>
+            We aim to keep the service simple and minimize unnecessary information collection.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">✨</div>
+          <h3>Simple Design</h3>
+          <p>
+            A clean interface that keeps the focus on the video you want to save.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+
+  <section id="how">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>How It Works</h2>
+        <p>
+          Saving a supported video takes just a few simple steps.
+        </p>
+      </div>
+
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Copy the link</h3>
+          <p>
+            Copy the URL of the video you want to save.
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Paste it</h3>
+          <p>
+            Paste the video URL into the VideoSaver box above.
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Download</h3>
+          <p>
+            Choose an available option and download your video.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+
+  <section id="faq">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Frequently Asked Questions</h2>
+        <p>
+          Some common questions about VideoSaver.
+        </p>
+      </div>
+
+      <div class="faq">
+
+        <details>
+          <summary>What is VideoSaver?</summary>
+          <p>
+            VideoSaver is an online tool designed to help users save videos
+            from supported platforms when downloading is permitted.
+          </p>
+        </details>
+
+        <details>
+          <summary>Do I need to install an app?</summary>
+          <p>
+            No. VideoSaver is designed to work directly from your web browser.
+          </p>
+        </details>
+
+        <details>
+          <summary>Is VideoSaver free?</summary>
+          <p>
+            The website is intended to provide a free basic downloading service.
+          </p>
+        </details>
+
+        <details>
+          <summary>Can I download any video?</summary>
+          <p>
+            You should only download content when you have permission to do so
+            and when the relevant platform allows downloading.
+          </p>
+        </details>
+
+        <details>
+          <summary>Does VideoSaver store my videos?</summary>
+          <p>
+            VideoSaver is designed to process requests rather than provide
+            permanent video storage.
+          </p>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="container footer-content">
+
+    <div>
+      © 2026 VideoSaver. All rights reserved.
+    </div>
+
+    <div class="footer-links">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms</a>
+      <a href="contact.html">Contact</a>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  const form = document.getElementById("downloadForm");
+  const input = document.getElementById("videoUrl");
+  const message = document.getElementById("message");
+
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const url = input.value.trim();
+
+    if (!url) {
+      message.textContent = "Please paste a video URL first.";
+      return;
+    }
+
+    message.textContent =
+      "Video processing will be available soon. The downloader backend has not been connected yet.";
+  });
+</script>
+
+</body>
+</html>
+```
