@@ -1,1 +1,464 @@
 
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>About VideoSaver - Simple Online Video Downloader</title>
+
+  <meta name="description" content="Learn more about VideoSaver, a simple and user-friendly online video saving service.">
+
+  <meta name="theme-color" content="#070b16">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: #070b16;
+      color: #f8fafc;
+      line-height: 1.7;
+    }
+
+    a {
+      color: #818cf8;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #22d3ee;
+    }
+
+    .container {
+      width: min(900px, 92%);
+      margin: auto;
+    }
+
+    header {
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(7,11,22,.95);
+    }
+
+    .nav {
+      min-height: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .brand-icon {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #6366f1, #22d3ee);
+    }
+
+    .back {
+      color: #aab3c4;
+      font-size: 14px;
+    }
+
+    main {
+      padding: 75px 0 90px;
+    }
+
+    h1 {
+      font-size: clamp(36px, 6vw, 52px);
+      line-height: 1.1;
+      letter-spacing: -2px;
+      margin-bottom: 15px;
+    }
+
+    .intro {
+      color: #aab3c4;
+      font-size: 17px;
+      max-width: 720px;
+      margin-bottom: 50px;
+    }
+
+    section {
+      margin-bottom: 45px;
+    }
+
+    h2 {
+      font-size: 25px;
+      margin-bottom: 14px;
+      color: #fff;
+    }
+
+    p {
+      color: #9aa5b8;
+      font-size: 15px;
+      margin-bottom: 15px;
+    }
+
+    .highlight {
+      padding: 25px;
+      margin: 30px 0;
+      border-radius: 16px;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(99,102,241,.10),
+          rgba(34,211,238,.04)
+        );
+      border: 1px solid rgba(99,102,241,.20);
+    }
+
+    .highlight p {
+      margin-bottom: 0;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 25px;
+    }
+
+    .feature {
+      padding: 25px;
+      border-radius: 15px;
+      background: rgba(255,255,255,.045);
+      border: 1px solid rgba(255,255,255,.09);
+    }
+
+    .feature-icon {
+      font-size: 23px;
+      margin-bottom: 12px;
+    }
+
+    .feature h3 {
+      font-size: 17px;
+      margin-bottom: 8px;
+    }
+
+    .feature p {
+      font-size: 14px;
+      margin-bottom: 0;
+    }
+
+    .values {
+      padding-left: 20px;
+      color: #9aa5b8;
+    }
+
+    .values li {
+      margin-bottom: 10px;
+    }
+
+    .cta {
+      margin-top: 55px;
+      padding: 40px 25px;
+      text-align: center;
+      border-radius: 18px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.09);
+    }
+
+    .cta h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .cta p {
+      margin-bottom: 20px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 22px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6366f1, #0891b2);
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 35px 0;
+      text-align: center;
+      color: #687388;
+      font-size: 12px;
+    }
+
+    .footer-links {
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 650px) {
+
+      .nav {
+        min-height: 68px;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      main {
+        padding: 55px 0 70px;
+      }
+
+      h1 {
+        letter-spacing: -1.5px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+
+    <a href="index.html" class="brand">
+      <div class="brand-icon">▶</div>
+      VideoSaver
+    </a>
+
+    <a href="index.html" class="back">
+      ← Back to VideoSaver
+    </a>
+
+  </div>
+</header>
+
+
+<main>
+
+  <div class="container">
+
+    <h1>About VideoSaver</h1>
+
+    <p class="intro">
+      VideoSaver is a simple online tool designed to make saving supported
+      online video content easier. Our goal is to provide a clean,
+      straightforward experience without requiring users to install
+      complicated software.
+    </p>
+
+
+    <section>
+
+      <h2>Our goal</h2>
+
+      <p>
+        We believe useful online tools should be simple. VideoSaver was
+        created with that idea in mind: paste a supported video link,
+        follow the available options and save content you are authorized
+        to use.
+      </p>
+
+      <p>
+        The service is designed to work directly in a web browser, making
+        it accessible from desktop computers, smartphones and tablets.
+      </p>
+
+      <div class="highlight">
+
+        <p>
+          <strong>Our principle:</strong> VideoSaver is intended for
+          legitimate use. Users are responsible for ensuring that they
+          have the necessary rights or permission to save the content
+          they access through the service.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <section>
+
+      <h2>Why VideoSaver?</h2>
+
+      <div class="feature-grid">
+
+        <div class="feature">
+
+          <div class="feature-icon">⚡</div>
+
+          <h3>Simple</h3>
+
+          <p>
+            We keep the interface straightforward so users can quickly
+            understand how the service works.
+          </p>
+
+        </div>
+
+
+        <div class="feature">
+
+          <div class="feature-icon">📱</div>
+
+          <h3>Works across devices</h3>
+
+          <p>
+            VideoSaver is designed for phones, tablets and desktop
+            browsers.
+          </p>
+
+        </div>
+
+
+        <div class="feature">
+
+          <div class="feature-icon">🌐</div>
+
+          <h3>Browser based</h3>
+
+          <p>
+            No dedicated desktop application is required to access the
+            website.
+          </p>
+
+        </div>
+
+
+        <div class="feature">
+
+          <div class="feature-icon">🔒</div>
+
+          <h3>Privacy conscious</h3>
+
+          <p>
+            We aim to minimize unnecessary information collection and
+            explain our practices in our Privacy Policy.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section>
+
+      <h2>Responsible use</h2>
+
+      <p>
+        VideoSaver does not give users ownership or permission to download
+        copyrighted material. Copyright, privacy and other laws may apply
+        to content available online.
+      </p>
+
+      <p>
+        Before saving or sharing any video, you should make sure that your
+        use is permitted by the content owner and the relevant platform.
+      </p>
+
+      <ul class="values">
+
+        <li>Respect copyright and intellectual property rights.</li>
+
+        <li>Respect the privacy of other people.</li>
+
+        <li>Follow the rules of the platform where content is hosted.</li>
+
+        <li>Only use VideoSaver for lawful purposes.</li>
+
+      </ul>
+
+    </section>
+
+
+    <section>
+
+      <h2>Independent service</h2>
+
+      <p>
+        VideoSaver is an independent website. Names, trademarks and logos
+        belonging to third-party platforms remain the property of their
+        respective owners.
+      </p>
+
+      <p>
+        VideoSaver is not affiliated with or endorsed by third-party
+        platforms unless explicitly stated otherwise.
+      </p>
+
+    </section>
+
+
+    <section>
+
+      <h2>Improving VideoSaver</h2>
+
+      <p>
+        We plan to continue improving VideoSaver by making the service
+        faster, easier to use and more useful across different devices.
+      </p>
+
+      <p>
+        New features may be introduced over time, and existing features
+        may be updated as the website develops.
+      </p>
+
+    </section>
+
+
+    <div class="cta">
+
+      <h2>Try VideoSaver</h2>
+
+      <p>
+        Ready to get started? Return to the homepage and enter a supported
+        video URL.
+      </p>
+
+      <a href="index.html" class="button">
+        Go to VideoSaver
+      </a>
+
+    </div>
+
+  </div>
+
+</main>
+
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms</a>
+      <a href="contact.html">Contact</a>
+    </div>
+
+    © 2026 VideoSaver. All rights reserved.
+
+  </div>
+
+</footer>
+
+</body>
+</html>
+```
