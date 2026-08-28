@@ -1,0 +1,291 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Contact - VideoSaver</title>
+
+  <meta name="description" content="Contact VideoSaver for questions, feedback, copyright concerns and support.">
+
+  <meta name="theme-color" content="#070b16">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: #070b16;
+      color: #f8fafc;
+      line-height: 1.7;
+    }
+
+    a {
+      color: #818cf8;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #22d3ee;
+    }
+
+    .container {
+      width: min(900px, 92%);
+      margin: auto;
+    }
+
+    header {
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(7,11,22,.95);
+    }
+
+    .nav {
+      min-height: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .brand-icon {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #6366f1, #22d3ee);
+    }
+
+    .back {
+      color: #aab3c4;
+      font-size: 14px;
+    }
+
+    main {
+      padding: 75px 0 90px;
+    }
+
+    h1 {
+      font-size: clamp(36px, 6vw, 52px);
+      line-height: 1.1;
+      letter-spacing: -2px;
+      margin-bottom: 15px;
+    }
+
+    .intro {
+      color: #9aa5b8;
+      font-size: 16px;
+      max-width: 650px;
+      margin-bottom: 45px;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .card {
+      padding: 30px;
+      background: rgba(255,255,255,.055);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 17px;
+    }
+
+    .icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      background: rgba(99,102,241,.12);
+      border: 1px solid rgba(99,102,241,.18);
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #929db1;
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .email-box {
+      display: inline-block;
+      margin-top: 5px;
+      padding: 11px 15px;
+      border-radius: 10px;
+      background: rgba(99,102,241,.10);
+      border: 1px solid rgba(99,102,241,.18);
+      color: #b9c2ff;
+      word-break: break-all;
+    }
+
+    .notice {
+      margin-top: 25px;
+      padding: 20px;
+      border-radius: 13px;
+      background: rgba(34,211,238,.045);
+      border: 1px solid rgba(34,211,238,.12);
+      color: #8995aa;
+      font-size: 13px;
+    }
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 35px 0;
+      text-align: center;
+      color: #687388;
+      font-size: 12px;
+    }
+
+    .footer-links {
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 700px) {
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      main {
+        padding: 55px 0 70px;
+      }
+
+      .nav {
+        min-height: 68px;
+      }
+
+      .back {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+
+    <a href="index.html" class="brand">
+      <div class="brand-icon">▶</div>
+      VideoSaver
+    </a>
+
+    <a href="index.html" class="back">
+      ← Back to VideoSaver
+    </a>
+
+  </div>
+</header>
+
+
+<main>
+
+  <div class="container">
+
+    <h1>Contact Us</h1>
+
+    <p class="intro">
+      Have a question, feedback or a problem with VideoSaver?
+      We'd be happy to hear from you.
+    </p>
+
+
+    <div class="contact-grid">
+
+      <div class="card">
+
+        <div class="icon">✉</div>
+
+        <h2>General Support</h2>
+
+        <p>
+          For general questions, technical issues, feedback or suggestions,
+          please contact us by email.
+        </p>
+
+        <a class="email-box"
+           href="mailto:contact@videosaver.pk">
+          contact@videosaver.pk
+        </a>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="icon">©</div>
+
+        <h2>Copyright Concerns</h2>
+
+        <p>
+          If you believe that content accessible through our service
+          infringes your rights, please contact us with sufficient
+          information to identify the relevant content and your concern.
+        </p>
+
+        <a class="email-box"
+           href="mailto:contact@videosaver.pk">
+          Contact us by email
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="notice">
+      <strong>Please note:</strong> VideoSaver is an independent service.
+      We are not affiliated with or endorsed by third-party platforms that
+      may be supported by the service.
+    </div>
+
+  </div>
+
+</main>
+
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms</a>
+    </div>
+
+    © 2026 VideoSaver. All rights reserved.
+
+  </div>
+
+</footer>
+
+</body>
+</html>
+```
