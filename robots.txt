@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://salimpk742-ai.github.io/VideoSaver/sitemap.xml
