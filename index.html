@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +6,10 @@
 
   <title>VideoSaver - Online Video Downloader</title>
 
-  <meta name="description" content="VideoSaver is a simple online video downloader for supported content you have permission to save.">
+  <meta
+    name="description"
+    content="VideoSaver is a simple online video downloader for supported content you have permission to save."
+  >
 
   <style>
     * {
@@ -19,13 +21,13 @@
     body {
       font-family: Arial, sans-serif;
       background: #070b16;
-      color: #f8fafc;
+      color: white;
       min-height: 100vh;
     }
 
     header {
-      border-bottom: 1px solid rgba(255,255,255,.08);
       padding: 20px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
 
     .nav {
@@ -37,25 +39,28 @@
     }
 
     .brand {
-      font-size: 22px;
+      font-size: 21px;
       font-weight: bold;
-      color: white;
     }
 
-    .nav a {
+    nav a {
       color: #9aa5b8;
       text-decoration: none;
-      margin-left: 20px;
+      margin-left: 18px;
       font-size: 14px;
+    }
+
+    nav a:hover {
+      color: white;
     }
 
     .hero {
       text-align: center;
-      padding: 100px 20px 80px;
+      padding: 90px 20px 70px;
     }
 
     .hero h1 {
-      font-size: clamp(42px, 7vw, 70px);
+      font-size: clamp(40px, 7vw, 70px);
       margin-bottom: 20px;
     }
 
@@ -67,32 +72,31 @@
 
     .hero p {
       max-width: 650px;
-      margin: auto;
+      margin: 0 auto 35px;
       color: #9aa5b8;
-      font-size: 17px;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .downloader {
-      max-width: 800px;
-      margin: 40px auto 0;
+      max-width: 820px;
+      margin: auto;
     }
 
     form {
       display: flex;
       gap: 8px;
       padding: 8px;
-      background: rgba(255,255,255,.06);
+      background: rgba(255,255,255,.05);
       border: 1px solid rgba(255,255,255,.12);
-      border-radius: 16px;
+      border-radius: 15px;
     }
 
     input {
       flex: 1;
       min-width: 0;
-      padding: 18px;
+      padding: 17px;
       border: 0;
-      outline: none;
+      outline: 0;
       border-radius: 10px;
       background: #101728;
       color: white;
@@ -100,14 +104,13 @@
     }
 
     button {
-      min-width: 150px;
       border: 0;
       border-radius: 10px;
-      background: linear-gradient(135deg,#6366f1,#0891b2);
+      padding: 0 25px;
+      background: linear-gradient(135deg, #6366f1, #0891b2);
       color: white;
       font-weight: bold;
       cursor: pointer;
-      font-size: 15px;
     }
 
     button:disabled {
@@ -116,87 +119,138 @@
     }
 
     #status {
-      min-height: 30px;
-      margin-top: 20px;
+      min-height: 25px;
+      margin-top: 18px;
       color: #67e8f9;
-      line-height: 1.6;
     }
 
-    .download-link {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 13px 22px;
+    #result {
+      display: none;
+      max-width: 820px;
+      margin: 35px auto 0;
+      padding: 25px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 16px;
+      text-align: left;
+    }
+
+    .video-info {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .thumbnail {
+      width: 220px;
+      height: 125px;
+      object-fit: cover;
       border-radius: 10px;
-      background: linear-gradient(135deg,#6366f1,#0891b2);
+      background: #101728;
+    }
+
+    .video-details h2 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .video-details p {
+      margin: 4px 0;
+      color: #9aa5b8;
+      font-size: 14px;
+    }
+
+    .download-options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .download-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border-radius: 10px;
+      background: #101728;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .download-option span {
+      color: #dbe3f0;
+      font-size: 14px;
+    }
+
+    .download-option a {
+      padding: 9px 15px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #6366f1, #0891b2);
       color: white;
       text-decoration: none;
+      font-size: 13px;
       font-weight: bold;
     }
 
-    .note {
-      margin-top: 12px;
+    .download-option a.disabled {
+      background: #343b4d;
+      color: #858da0;
+      cursor: not-allowed;
+    }
+
+    .notice {
+      margin-top: 18px;
       color: #687388;
       font-size: 12px;
-    }
-
-    section {
-      padding: 80px 20px;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    .heading {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .heading h2 {
-      font-size: 38px;
-      margin-bottom: 10px;
-    }
-
-    .heading p {
-      color: #9aa5b8;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-      gap: 15px;
-    }
-
-    .card {
-      padding: 30px 20px;
-      text-align: center;
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: 15px;
-      background: rgba(255,255,255,.04);
-    }
-
-    .card h3 {
-      margin-bottom: 10px;
-    }
-
-    .card p {
-      color: #8792a8;
-      font-size: 14px;
       line-height: 1.6;
     }
 
-    footer {
-      border-top: 1px solid rgba(255,255,255,.08);
-      padding: 40px 20px;
+    section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 70px 20px;
+    }
+
+    section h2 {
       text-align: center;
+      font-size: 35px;
+      margin-bottom: 15px;
+    }
+
+    section > p {
+      text-align: center;
+      color: #9aa5b8;
+      margin-bottom: 35px;
+    }
+
+    .platforms {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .platform {
+      padding: 25px;
+      text-align: center;
+      border-radius: 12px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      color: #dbe3f0;
+    }
+
+    footer {
+      padding: 35px 20px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,.08);
       color: #687388;
       font-size: 13px;
     }
 
-    @media(max-width:800px) {
-      .grid {
-        grid-template-columns: repeat(2,1fr);
+    @media (max-width: 700px) {
+      nav {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 60px;
       }
 
       form {
@@ -204,26 +258,30 @@
       }
 
       button {
-        min-height: 55px;
+        min-height: 52px;
       }
 
-      .nav {
+      .video-info {
         flex-direction: column;
-        gap: 15px;
       }
 
-      .nav a {
-        margin: 0 7px;
-      }
-    }
-
-    @media(max-width:500px) {
-      .grid {
-        grid-template-columns: 1fr;
+      .thumbnail {
+        width: 100%;
+        height: auto;
       }
 
-      .hero {
-        padding-top: 70px;
+      .download-option {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+
+      .download-option a {
+        text-align: center;
+      }
+
+      .platforms {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
@@ -238,8 +296,6 @@
     <nav>
       <a href="#download">Download</a>
       <a href="#platforms">Platforms</a>
-      <a href="#how">How it works</a>
-      <a href="#faq">FAQ</a>
     </nav>
   </div>
 </header>
@@ -254,8 +310,8 @@
   </h1>
 
   <p>
-    VideoSaver lets you save supported online videos
-    directly from your browser when downloading is permitted.
+    Paste a supported video link below and VideoSaver
+    will find the available download options.
   </p>
 
   <div class="downloader">
@@ -265,8 +321,7 @@
       <input
         id="videoUrl"
         type="url"
-        placeholder="Paste your video URL here..."
-        autocomplete="off"
+        placeholder="Paste your YouTube, TikTok, Instagram or other video URL..."
         required
       >
 
@@ -278,8 +333,41 @@
 
     <div id="status"></div>
 
-    <div class="note">
-      Only download content you have the right or permission to save.
+    <div id="result">
+
+      <div class="video-info">
+
+        <img
+          id="thumbnail"
+          class="thumbnail"
+          src=""
+          alt="Video thumbnail"
+        >
+
+        <div class="video-details">
+
+          <h2 id="videoTitle"></h2>
+
+          <p id="videoAuthor"></p>
+
+          <p id="videoPlatform"></p>
+
+          <p id="videoDuration"></p>
+
+        </div>
+
+      </div>
+
+      <div
+        id="downloadOptions"
+        class="download-options"
+      ></div>
+
+      <div class="notice">
+        Only download content that you have the right
+        or permission to save.
+      </div>
+
     </div>
 
   </div>
@@ -288,109 +376,23 @@
 
 <section id="platforms">
 
-  <div class="container">
+  <h2>Supported platforms</h2>
 
-    <div class="heading">
-      <h2>Supported Platforms</h2>
-      <p>VideoSaver is being developed for popular video platforms.</p>
-    </div>
+  <p>
+    VideoSaver is designed to work with supported
+    online video platforms.
+  </p>
 
-    <div class="grid">
+  <div class="platforms">
 
-      <div class="card">
-        <h3>▶ YouTube</h3>
-        <p>YouTube video links.</p>
-      </div>
-
-      <div class="card">
-        <h3>♪ TikTok</h3>
-        <p>TikTok video links.</p>
-      </div>
-
-      <div class="card">
-        <h3>◎ Instagram</h3>
-        <p>Supported Instagram content.</p>
-      </div>
-
-      <div class="card">
-        <h3>𝕏 X</h3>
-        <p>Supported X content.</p>
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-<section id="how">
-
-  <div class="container">
-
-    <div class="heading">
-      <h2>How it works</h2>
-      <p>Three simple steps.</p>
-    </div>
-
-    <div class="grid">
-
-      <div class="card">
-        <h3>1. Copy</h3>
-        <p>Copy the URL of the video you are authorized to save.</p>
-      </div>
-
-      <div class="card">
-        <h3>2. Paste</h3>
-        <p>Paste the link into the VideoSaver downloader.</p>
-      </div>
-
-      <div class="card">
-        <h3>3. Download</h3>
-        <p>Choose the available download option.</p>
-      </div>
-
-      <div class="card">
-        <h3>✓ Done</h3>
-        <p>Save the video to your device.</p>
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-<section id="faq">
-
-  <div class="container">
-
-    <div class="heading">
-      <h2>FAQ</h2>
-    </div>
-
-    <div class="card">
-
-      <h3>Do I need to install anything?</h3>
-      <p>
-        No. VideoSaver works through your web browser.
-      </p>
-
-      <br>
-
-      <h3>Is VideoSaver free?</h3>
-      <p>
-        The basic service is intended to be free.
-      </p>
-
-      <br>
-
-      <h3>Can I download any video?</h3>
-      <p>
-        Only download content when you have the necessary
-        rights or permission and when the platform permits it.
-      </p>
-
-    </div>
+    <div class="platform">▶ YouTube</div>
+    <div class="platform">♪ TikTok</div>
+    <div class="platform">◎ Instagram</div>
+    <div class="platform">f Facebook</div>
+    <div class="platform">𝕏 X</div>
+    <div class="platform">▶ Vimeo</div>
+    <div class="platform">R Reddit</div>
+    <div class="platform">＋ More</div>
 
   </div>
 
@@ -404,13 +406,42 @@
 
 <script>
 
-const form = document.getElementById("downloadForm");
-const input = document.getElementById("videoUrl");
-const status = document.getElementById("status");
-const button = document.getElementById("downloadButton");
-
 const API_URL =
   "https://express-js-on-vercel-bice-three-81.vercel.app";
+
+const form =
+  document.getElementById("downloadForm");
+
+const input =
+  document.getElementById("videoUrl");
+
+const button =
+  document.getElementById("downloadButton");
+
+const status =
+  document.getElementById("status");
+
+const result =
+  document.getElementById("result");
+
+const thumbnail =
+  document.getElementById("thumbnail");
+
+const videoTitle =
+  document.getElementById("videoTitle");
+
+const videoAuthor =
+  document.getElementById("videoAuthor");
+
+const videoPlatform =
+  document.getElementById("videoPlatform");
+
+const videoDuration =
+  document.getElementById("videoDuration");
+
+const downloadOptions =
+  document.getElementById("downloadOptions");
+
 
 form.addEventListener("submit", async function(event) {
 
@@ -419,72 +450,185 @@ form.addEventListener("submit", async function(event) {
   const url = input.value.trim();
 
   if (!url) {
-    status.textContent = "Please paste a video URL first.";
+    status.textContent =
+      "Please paste a video URL.";
     return;
   }
 
   button.disabled = true;
-  button.textContent = "Processing...";
-  status.textContent = "Getting video information...";
+  button.textContent = "Checking...";
+  status.textContent =
+    "Finding available downloads...";
+
+  result.style.display = "none";
+  downloadOptions.innerHTML = "";
 
   try {
 
     const response = await fetch(
-      API_URL + "/download?url=" + encodeURIComponent(url)
+      API_URL +
+      "/download?url=" +
+      encodeURIComponent(url)
     );
 
     const data = await response.json();
 
+    console.log("VideoSaver response:", data);
+
     if (!response.ok || !data.success) {
+
       throw new Error(
-        data.error || "Unable to process this video."
+        data.error ||
+        "Unable to process this video."
       );
+
     }
 
-    status.innerHTML = "";
+    videoTitle.textContent =
+      data.title || "Video";
 
-    const message = document.createElement("div");
+    videoAuthor.textContent =
+      data.author
+        ? "Creator: " + data.author
+        : "";
 
-    message.textContent =
-      data.title || "Video is ready.";
+    videoPlatform.textContent =
+      data.platform
+        ? "Platform: " + data.platform
+        : "";
 
-    status.appendChild(message);
+    if (data.duration) {
 
-    if (data.downloadUrl) {
+      const minutes =
+        Math.floor(data.duration / 60);
 
-      const link = document.createElement("a");
+      const seconds =
+        data.duration % 60;
 
-      link.href = data.downloadUrl;
-      link.textContent = "⬇ Download Video";
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.className = "download-link";
-
-      status.appendChild(link);
+      videoDuration.textContent =
+        "Duration: " +
+        minutes +
+        ":" +
+        String(seconds).padStart(2, "0");
 
     } else {
 
-      const info = document.createElement("div");
+      videoDuration.textContent = "";
 
-      info.style.marginTop = "10px";
-      info.textContent =
-        "The service received your link but did not return a download file.";
-
-      status.appendChild(info);
     }
 
-  } catch (error) {
+    if (data.thumbnail) {
+
+      thumbnail.src =
+        data.thumbnail;
+
+      thumbnail.style.display =
+        "block";
+
+    } else {
+
+      thumbnail.style.display =
+        "none";
+
+    }
+
+    const links =
+      data.downloadLinks || [];
+
+    if (links.length === 0) {
+
+      throw new Error(
+        "No downloadable formats were returned."
+      );
+
+    }
+
+    links.forEach(function(item) {
+
+      const row =
+        document.createElement("div");
+
+      row.className =
+        "download-option";
+
+      const label =
+        document.createElement("span");
+
+      label.textContent =
+        item.quality +
+        " • " +
+        item.format +
+        (item.size
+          ? " • " + item.size
+          : "");
+
+      row.appendChild(label);
+
+      if (item.url) {
+
+        const link =
+          document.createElement("a");
+
+        link.href =
+          item.url;
+
+        link.target =
+          "_blank";
+
+        link.rel =
+          "noopener noreferrer";
+
+        link.download = "";
+
+        link.textContent =
+          "Download";
+
+        row.appendChild(link);
+
+      } else {
+
+        const unavailable =
+          document.createElement("a");
+
+        unavailable.className =
+          "disabled";
+
+        unavailable.textContent =
+          "Preparing...";
+
+        row.appendChild(unavailable);
+
+      }
+
+      downloadOptions.appendChild(row);
+
+    });
+
+    result.style.display =
+      "block";
+
+    status.textContent =
+      "✓ Video found. Choose a download option.";
+
+  }
+
+  catch(error) {
 
     console.error(error);
 
     status.textContent =
-      error.message ||
-      "Unable to connect to VideoSaver. Please try again.";
+      "❌ " +
+      (error.message ||
+      "Unable to process this video.");
 
-  } finally {
+  }
+
+  finally {
 
     button.disabled = false;
-    button.textContent = "Download";
+
+    button.textContent =
+      "Download";
 
   }
 
@@ -494,4 +638,3 @@ form.addEventListener("submit", async function(event) {
 
 </body>
 </html>
-```
