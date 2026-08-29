@@ -8,7 +8,12 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>VideoSaver - Download Videos</title>
+  <meta
+    name="theme-color"
+    content="#2563eb"
+  >
+
+  <title>VideoSaver - Video Downloader</title>
 
   <style>
 
@@ -16,9 +21,17 @@
       box-sizing: border-box;
     }
 
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
+      padding: 0;
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
       background: #f5f7fb;
       color: #111827;
     }
@@ -32,12 +45,13 @@
 
     .header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
     }
 
     .header h1 {
-      margin: 0 0 10px;
+      margin: 0 0 8px;
       font-size: 34px;
+      line-height: 1.2;
     }
 
     .header p {
@@ -47,7 +61,7 @@
     }
 
     .card {
-      background: white;
+      background: #ffffff;
       border-radius: 18px;
       padding: 22px;
       box-shadow:
@@ -68,6 +82,8 @@
       border-radius: 12px;
       font-size: 16px;
       outline: none;
+      background: #ffffff;
+      color: #111827;
     }
 
     #videoUrl:focus {
@@ -80,11 +96,12 @@
       border: none;
       border-radius: 12px;
       background: #2563eb;
-      color: white;
+      color: #ffffff;
       font-size: 16px;
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
+      touch-action: manipulation;
     }
 
     #downloadBtn:disabled {
@@ -98,6 +115,7 @@
       border-radius: 10px;
       display: none;
       line-height: 1.5;
+      font-size: 14px;
     }
 
     .message.show {
@@ -112,6 +130,11 @@
     .message.info {
       background: #eff6ff;
       color: #1e40af;
+    }
+
+    .message.success {
+      background: #ecfdf5;
+      color: #065f46;
     }
 
     .result {
@@ -146,14 +169,16 @@
     .title {
       margin: 0 0 8px;
       font-size: 19px;
+      line-height: 1.35;
       font-weight: 700;
       word-break: break-word;
     }
 
     .meta {
-      margin: 4px 0;
+      margin: 5px 0;
       color: #6b7280;
       font-size: 14px;
+      word-break: break-word;
     }
 
     .links-title {
@@ -174,18 +199,19 @@
       justify-content: space-between;
       gap: 12px;
       width: 100%;
-      min-height: 50px;
+      min-height: 54px;
       padding: 10px 14px;
       border: 1px solid #e5e7eb;
       border-radius: 12px;
       background: #fafafa;
       text-decoration: none;
       color: #111827;
-      transition: 0.15s;
+      cursor: pointer;
+      touch-action: manipulation;
     }
 
-    .download-link:hover {
-      background: #f3f4f6;
+    .download-link:active {
+      transform: scale(0.99);
     }
 
     .quality {
@@ -202,7 +228,7 @@
       padding: 9px 14px;
       border-radius: 9px;
       background: #2563eb;
-      color: white;
+      color: #ffffff;
       font-size: 14px;
       font-weight: 700;
       white-space: nowrap;
@@ -214,6 +240,7 @@
       color: #9a3412;
       border-radius: 10px;
       line-height: 1.5;
+      font-size: 14px;
     }
 
     .footer {
@@ -229,11 +256,18 @@
     @media (max-width: 600px) {
 
       .container {
-        padding: 20px 12px 40px;
+        padding:
+          20px
+          12px
+          40px;
       }
 
       .header h1 {
         font-size: 28px;
+      }
+
+      .header p {
+        font-size: 14px;
       }
 
       .card {
@@ -248,10 +282,12 @@
       #videoUrl {
         width: 100%;
         height: 52px;
+        font-size: 16px;
       }
 
       #downloadBtn {
         width: 100%;
+        height: 52px;
       }
 
       .preview {
@@ -261,7 +297,7 @@
       .thumbnail {
         width: 100%;
         height: auto;
-        max-height: 230px;
+        max-height: 250px;
       }
 
       .download-link {
@@ -270,7 +306,9 @@
       }
 
       .download-action {
-        padding: 10px 12px;
+        padding:
+          10px
+          12px;
       }
 
     }
@@ -303,13 +341,15 @@
           type="url"
           placeholder="Paste video URL here..."
           autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
         >
 
         <button
           id="downloadBtn"
           type="button"
         >
-          Download
+          Get Video
         </button>
 
       </div>
@@ -384,59 +424,80 @@
 
   <script>
 
-    // ================================
-    // BACKEND
-    // ================================
+    // ==========================================
+    // YOUR VERCEL BACKEND
+    // ==========================================
 
     const API_BASE =
       "https://video-saver-backend.vercel.app";
 
 
-    // ================================
+    // ==========================================
     // ELEMENTS
-    // ================================
+    // ==========================================
 
-    const formUrl =
-      document.getElementById("videoUrl");
+    const videoUrl =
+      document.getElementById(
+        "videoUrl"
+      );
 
     const downloadBtn =
-      document.getElementById("downloadBtn");
+      document.getElementById(
+        "downloadBtn"
+      );
 
     const message =
-      document.getElementById("message");
+      document.getElementById(
+        "message"
+      );
 
     const result =
-      document.getElementById("result");
+      document.getElementById(
+        "result"
+      );
 
     const thumbnail =
-      document.getElementById("thumbnail");
+      document.getElementById(
+        "thumbnail"
+      );
 
     const title =
-      document.getElementById("title");
+      document.getElementById(
+        "title"
+      );
 
     const author =
-      document.getElementById("author");
+      document.getElementById(
+        "author"
+      );
 
     const platform =
-      document.getElementById("platform");
+      document.getElementById(
+        "platform"
+      );
 
     const duration =
-      document.getElementById("duration");
+      document.getElementById(
+        "duration"
+      );
 
     const links =
-      document.getElementById("links");
+      document.getElementById(
+        "links"
+      );
 
 
-    // ================================
-    // MESSAGE
-    // ================================
+    // ==========================================
+    // SHOW MESSAGE
+    // ==========================================
 
     function showMessage(
       text,
       type = "info"
     ) {
 
-      message.textContent = text;
+      message.textContent =
+        text;
 
       message.className =
         "message show " + type;
@@ -446,7 +507,8 @@
 
     function hideMessage() {
 
-      message.textContent = "";
+      message.textContent =
+        "";
 
       message.className =
         "message";
@@ -454,34 +516,48 @@
     }
 
 
-    // ================================
+    // ==========================================
     // RESET
-    // ================================
+    // ==========================================
 
     function resetResult() {
 
-      result.classList.remove("show");
+      result.classList.remove(
+        "show"
+      );
 
-      links.innerHTML = "";
+      links.innerHTML =
+        "";
 
-      thumbnail.removeAttribute("src");
+      thumbnail.removeAttribute(
+        "src"
+      );
 
-      title.textContent = "";
+      thumbnail.style.display =
+        "";
 
-      author.textContent = "";
+      title.textContent =
+        "";
 
-      platform.textContent = "";
+      author.textContent =
+        "";
 
-      duration.textContent = "";
+      platform.textContent =
+        "";
+
+      duration.textContent =
+        "";
 
     }
 
 
-    // ================================
+    // ==========================================
     // FORMAT DURATION
-    // ================================
+    // ==========================================
 
-    function formatDuration(seconds) {
+    function formatDuration(
+      seconds
+    ) {
 
       if (
         !seconds ||
@@ -491,10 +567,14 @@
       }
 
       seconds =
-        Math.floor(Number(seconds));
+        Math.floor(
+          Number(seconds)
+        );
 
       const minutes =
-        Math.floor(seconds / 60);
+        Math.floor(
+          seconds / 60
+        );
 
       const remaining =
         seconds % 60;
@@ -502,75 +582,113 @@
       return (
         minutes +
         ":" +
-        String(remaining).padStart(2, "0")
+        String(
+          remaining
+        ).padStart(
+          2,
+          "0"
+        )
       );
 
     }
 
 
-    // ================================
-    // CREATE DOWNLOAD LINK
-    // ================================
+    // ==========================================
+    // CREATE DOWNLOAD BUTTON
+    // ==========================================
 
-    function createDownloadLink(item) {
+    function createDownloadButton(
+      item
+    ) {
 
       if (
         !item ||
         !item.url ||
-        typeof item.url !== "string"
+        typeof item.url !== "string" ||
+        item.url.trim() === ""
       ) {
+
         return null;
+
       }
 
 
-      const link =
-        document.createElement("a");
+      const button =
+        document.createElement(
+          "a"
+        );
 
-      link.className =
+
+      button.className =
         "download-link";
 
-      link.href =
-        item.url;
 
       /*
-        Normal browser navigation.
+       * IMPORTANT:
+       *
+       * We do NOT use target="_blank".
+       *
+       * The browser stays on the same page.
+       */
 
-        This is more reliable on mobile than
-        window.open() or popup windows.
-      */
+      button.href =
+        item.url;
 
-      link.target =
-        "_blank";
 
-      link.rel =
+      button.rel =
         "noopener noreferrer";
 
 
+      /*
+       * This asks supporting browsers
+       * to download the file.
+       *
+       * Some external CDNs may ignore it,
+       * but it is harmless when they do.
+       */
+
+      button.setAttribute(
+        "download",
+        ""
+      );
+
+
+      // LEFT SIDE
+
       const left =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
 
       const quality =
-        document.createElement("span");
+        document.createElement(
+          "span"
+        );
 
       quality.className =
         "quality";
 
       quality.textContent =
         item.quality ||
-        "Download";
+        "Video";
 
 
       const format =
-        document.createElement("span");
+        document.createElement(
+          "span"
+        );
 
       format.className =
         "format";
 
-      format.textContent =
-        item.format
-          ? "• " + item.format
-          : "";
+      if (item.format) {
+
+        format.textContent =
+          "• " +
+          item.format;
+
+      }
 
 
       left.appendChild(
@@ -582,8 +700,12 @@
       );
 
 
+      // RIGHT SIDE
+
       const action =
-        document.createElement("span");
+        document.createElement(
+          "span"
+        );
 
       action.className =
         "download-action";
@@ -592,34 +714,50 @@
         "Download";
 
 
-      link.appendChild(
+      button.appendChild(
         left
       );
 
-      link.appendChild(
+      button.appendChild(
         action
       );
 
 
-      return link;
+      return button;
 
     }
 
 
-    // ================================
-    // FETCH VIDEO
-    // ================================
+    // ==========================================
+    // LOAD VIDEO
+    // ==========================================
 
-    async function fetchVideo() {
+    async function getVideo() {
 
       const url =
-        formUrl.value.trim();
+        videoUrl.value.trim();
 
 
       if (!url) {
 
         showMessage(
-          "Please paste a video URL.",
+          "Please paste a video URL first.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (
+        !/^https?:\/\//i.test(
+          url
+        )
+      ) {
+
+        showMessage(
+          "Please enter a valid video URL.",
           "error"
         );
 
@@ -645,16 +783,31 @@
         const endpoint =
           API_BASE +
           "/download?url=" +
-          encodeURIComponent(url);
+          encodeURIComponent(
+            url
+          );
 
 
         const response =
-          await fetch(endpoint);
+          await fetch(
+            endpoint,
+            {
+              method: "GET",
+              headers: {
+                "Accept":
+                  "application/json"
+              }
+            }
+          );
 
 
         const data =
           await response.json();
 
+
+        // ======================================
+        // API ERROR
+        // ======================================
 
         if (
           !response.ok ||
@@ -666,34 +819,12 @@
 
 
           if (
-            data.error &&
-            typeof data.error === "string"
+            typeof data.error ===
+            "string"
           ) {
+
             errorText =
               data.error;
-          }
-
-
-          if (
-            data.reelGrabResponse &&
-            data.reelGrabResponse.error
-          ) {
-
-            if (
-              typeof data.reelGrabResponse.error === "string"
-            ) {
-
-              errorText =
-                data.reelGrabResponse.error;
-
-            } else if (
-              data.reelGrabResponse.error.message
-            ) {
-
-              errorText =
-                data.reelGrabResponse.error.message;
-
-            }
 
           }
 
@@ -708,24 +839,37 @@
         }
 
 
-        // ============================
-        // METADATA
-        // ============================
+        // ======================================
+        // TITLE
+        // ======================================
 
         title.textContent =
           data.title ||
           "Video";
 
 
-        if (data.author) {
+        // ======================================
+        // AUTHOR
+        // ======================================
+
+        if (
+          data.author
+        ) {
 
           author.textContent =
-            "By " + data.author;
+            "By " +
+            data.author;
 
         }
 
 
-        if (data.platform) {
+        // ======================================
+        // PLATFORM
+        // ======================================
+
+        if (
+          data.platform
+        ) {
 
           platform.textContent =
             "Platform: " +
@@ -734,7 +878,13 @@
         }
 
 
-        if (data.duration) {
+        // ======================================
+        // DURATION
+        // ======================================
+
+        if (
+          data.duration
+        ) {
 
           duration.textContent =
             "Duration: " +
@@ -745,10 +895,24 @@
         }
 
 
-        if (data.thumbnail) {
+        // ======================================
+        // THUMBNAIL
+        // ======================================
+
+        if (
+          data.thumbnail
+        ) {
 
           thumbnail.src =
             data.thumbnail;
+
+          thumbnail.onerror =
+            function() {
+
+              thumbnail.style.display =
+                "none";
+
+            };
 
         } else {
 
@@ -758,9 +922,9 @@
         }
 
 
-        // ============================
+        // ======================================
         // DOWNLOAD LINKS
-        // ============================
+        // ======================================
 
         const downloadLinks =
           Array.isArray(
@@ -774,10 +938,15 @@
           downloadLinks.filter(
             item =>
               item &&
-              typeof item.url === "string" &&
+              typeof item.url ===
+                "string" &&
               item.url.trim() !== ""
           );
 
+
+        // ======================================
+        // NO DOWNLOAD LINKS
+        // ======================================
 
         if (
           validLinks.length === 0
@@ -787,42 +956,50 @@
             "show"
           );
 
-          links.innerHTML = "";
 
           const empty =
-            document.createElement("div");
+            document.createElement(
+              "div"
+            );
+
 
           empty.className =
             "empty";
 
+
           empty.textContent =
-            "The video was found, but this source did not provide a downloadable file. Try another public video.";
+            "The video was found, but this platform did not provide a downloadable file. Please try another public video.";
+
 
           links.appendChild(
             empty
           );
+
 
           return;
 
         }
 
 
-        // ============================
-        // SHOW LINKS
-        // ============================
+        // ======================================
+        // ADD DOWNLOAD BUTTONS
+        // ======================================
 
         validLinks.forEach(
           item => {
 
-            const link =
-              createDownloadLink(
+            const button =
+              createDownloadButton(
                 item
               );
 
-            if (link) {
+
+            if (
+              button
+            ) {
 
               links.appendChild(
-                link
+                button
               );
 
             }
@@ -836,16 +1013,41 @@
         );
 
 
-      } catch (error) {
+        showMessage(
+          "Video found. Choose a quality below.",
+          "success"
+        );
+
+
+        // Scroll result into view
+        setTimeout(
+          () => {
+
+            result.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+
+          },
+          100
+        );
+
+
+      } catch (
+        error
+      ) {
 
         console.error(
+          "VideoSaver error:",
           error
         );
 
+
         showMessage(
-          "Could not connect to the VideoSaver server. Please try again.",
+          "Could not connect to the VideoSaver server. Please check your internet connection and try again.",
           "error"
         );
+
 
       } finally {
 
@@ -853,43 +1055,45 @@
           false;
 
         downloadBtn.textContent =
-          "Download";
+          "Get Video";
 
       }
 
     }
 
 
-    // ================================
+    // ==========================================
     // BUTTON
-    // ================================
+    // ==========================================
 
     downloadBtn.addEventListener(
       "click",
-      fetchVideo
+      getVideo
     );
 
 
-    // ================================
+    // ==========================================
     // ENTER KEY
-    // ================================
+    // ==========================================
 
-    formUrl.addEventListener(
+    videoUrl.addEventListener(
       "keydown",
-      event => {
+      function(event) {
 
         if (
-          event.key === "Enter"
+          event.key ===
+          "Enter"
         ) {
 
           event.preventDefault();
 
-          fetchVideo();
+          getVideo();
 
         }
 
       }
     );
+
 
   </script>
 
