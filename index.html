@@ -1,264 +1,498 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
 <title>VideoSaver - Video Downloader</title>
 
 <style>
+
 * {
   box-sizing: border-box;
 }
 
 body {
+
   margin: 0;
-  font-family: Arial, sans-serif;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
   background: #f5f7fb;
+
   color: #111827;
+
 }
 
 .container {
+
   max-width: 760px;
+
   margin: auto;
-  padding: 30px 16px 60px;
+
+  padding:
+    30px
+    16px
+    60px;
+
 }
 
 .header {
+
   text-align: center;
+
   margin-bottom: 25px;
+
 }
 
 .header h1 {
-  margin: 0 0 8px;
+
+  margin:
+    0
+    0
+    8px;
+
   font-size: 34px;
+
 }
 
 .header p {
+
   margin: 0;
+
   color: #6b7280;
+
 }
 
 .card {
+
   background: white;
+
   border-radius: 18px;
+
   padding: 22px;
-  box-shadow: 0 8px 30px rgba(0,0,0,.08);
+
+  box-shadow:
+    0 8px 30px
+    rgba(0,0,0,.08);
+
 }
 
 .input-row {
+
   display: flex;
+
   gap: 10px;
+
 }
 
 #videoUrl {
+
   flex: 1;
+
   min-width: 0;
+
   height: 52px;
-  padding: 0 16px;
-  border: 1px solid #d1d5db;
+
+  padding:
+    0
+    16px;
+
+  border:
+    1px solid
+    #d1d5db;
+
   border-radius: 12px;
+
   font-size: 16px;
+
   outline: none;
+
+}
+
+#videoUrl:focus {
+
+  border-color: #2563eb;
+
 }
 
 #downloadBtn {
+
   height: 52px;
-  padding: 0 22px;
+
+  padding:
+    0
+    22px;
+
   border: none;
+
   border-radius: 12px;
+
   background: #2563eb;
+
   color: white;
+
   font-weight: bold;
+
   cursor: pointer;
+
 }
 
 #downloadBtn:disabled {
+
   opacity: .6;
+
   cursor: wait;
+
 }
 
 .message {
+
   display: none;
+
   margin-top: 18px;
+
   padding: 14px;
+
   border-radius: 10px;
+
   font-size: 14px;
+
 }
 
 .message.show {
+
   display: block;
+
 }
 
 .message.error {
+
   background: #fef2f2;
+
   color: #991b1b;
+
 }
 
 .message.info {
+
   background: #eff6ff;
+
   color: #1e40af;
+
 }
 
 .message.success {
+
   background: #ecfdf5;
+
   color: #065f46;
+
 }
 
 .result {
+
   display: none;
+
   margin-top: 25px;
+
 }
 
 .result.show {
+
   display: block;
+
 }
 
 .preview {
+
   display: flex;
+
   gap: 16px;
+
   margin-bottom: 22px;
+
 }
 
 .thumbnail {
+
   width: 180px;
+
   height: 105px;
+
   object-fit: cover;
+
   border-radius: 12px;
+
 }
 
 .title {
-  margin: 0 0 8px;
+
+  margin:
+    0
+    0
+    8px;
+
   font-size: 19px;
+
 }
 
 .meta {
+
   margin: 5px 0;
+
   color: #6b7280;
+
   font-size: 14px;
+
 }
 
 .links-title {
-  margin: 20px 0 10px;
+
+  margin:
+    20px
+    0
+    10px;
+
   font-weight: bold;
+
 }
 
 .links {
+
   display: flex;
+
   flex-direction: column;
+
   gap: 10px;
+
 }
 
 .download-link {
+
   display: flex;
+
   justify-content: space-between;
+
   align-items: center;
+
   gap: 12px;
+
   width: 100%;
+
   min-height: 55px;
-  padding: 10px 14px;
-  border: 1px solid #e5e7eb;
+
+  padding:
+    10px
+    14px;
+
+  border:
+    1px solid
+    #e5e7eb;
+
   border-radius: 12px;
+
   background: #fafafa;
+
 }
 
 .quality {
+
   font-weight: bold;
+
 }
 
 .format {
+
   color: #6b7280;
+
   font-size: 13px;
+
 }
 
 .download-action {
+
   border: 0;
+
   border-radius: 9px;
-  padding: 10px 15px;
+
+  padding:
+    10px
+    15px;
+
   background: #2563eb;
+
   color: white;
+
   font-weight: bold;
+
   cursor: pointer;
+
   white-space: nowrap;
+
 }
 
 .download-action:disabled {
+
   opacity: .6;
+
   cursor: wait;
+
+}
+
+.download-action:hover:not(:disabled) {
+
+  background: #1d4ed8;
+
 }
 
 .progress {
+
   margin-top: 15px;
+
   display: none;
+
 }
 
 .progress.show {
+
   display: block;
+
 }
 
 .progress-bar {
+
   width: 100%;
+
   height: 8px;
+
   background: #e5e7eb;
+
   border-radius: 10px;
+
   overflow: hidden;
+
 }
 
 .progress-inner {
+
   width: 0%;
+
   height: 100%;
+
   background: #2563eb;
-  transition: width .2s;
+
+  transition:
+    width .2s;
+
 }
 
 .progress-text {
+
   margin-top: 7px;
+
   font-size: 13px;
+
   color: #6b7280;
+
 }
 
 @media (max-width: 600px) {
 
   .container {
-    padding: 20px 12px 40px;
+
+    padding:
+      20px
+      12px
+      40px;
+
+  }
+
+  .header h1 {
+
+    font-size: 28px;
+
   }
 
   .input-row {
+
     flex-direction: column;
+
   }
 
   #videoUrl,
   #downloadBtn {
+
     width: 100%;
+
   }
 
   .preview {
+
     flex-direction: column;
+
   }
 
   .thumbnail {
+
     width: 100%;
+
     height: auto;
+
     max-height: 250px;
+
   }
 
   .download-link {
+
     min-height: 62px;
+
   }
+
+  .download-action {
+
+    padding:
+      11px
+      14px;
+
+  }
+
 }
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
 
+
   <div class="header">
+
     <h1>VideoSaver</h1>
-    <p>Download videos from supported social platforms</p>
+
+    <p>
+      Download videos from supported social platforms
+    </p>
+
   </div>
 
+
   <div class="card">
+
 
     <div class="input-row">
 
@@ -280,23 +514,28 @@ body {
 
     </div>
 
+
     <div
       id="message"
       class="message"
     ></div>
+
 
     <div
       id="result"
       class="result"
     >
 
+
       <div class="preview">
+
 
         <img
           id="thumbnail"
           class="thumbnail"
           alt="Video thumbnail"
         >
+
 
         <div>
 
@@ -305,15 +544,18 @@ body {
             class="title"
           ></h2>
 
+
           <div
             id="author"
             class="meta"
           ></div>
 
+
           <div
             id="platform"
             class="meta"
           ></div>
+
 
           <div
             id="duration"
@@ -324,14 +566,19 @@ body {
 
       </div>
 
+
       <div class="links-title">
+
         Available downloads
+
       </div>
+
 
       <div
         id="links"
         class="links"
       ></div>
+
 
       <div
         id="progress"
@@ -347,6 +594,7 @@ body {
 
         </div>
 
+
         <div
           id="progressText"
           class="progress-text"
@@ -356,14 +604,19 @@ body {
 
       </div>
 
+
     </div>
 
+
   </div>
+
 
 </div>
 
 
+
 <script>
+
 
 const API_BASE =
   "https://video-saver-backend.vercel.app";
@@ -409,9 +662,14 @@ const progressText =
   document.getElementById("progressText");
 
 
+// ======================================================
+// MESSAGE
+// ======================================================
+
 function showMessage(text, type) {
 
-  message.textContent = text;
+  message.textContent =
+    text;
 
   message.className =
     "message show " + type;
@@ -419,58 +677,161 @@ function showMessage(text, type) {
 }
 
 
+// ======================================================
+// RESET
+// ======================================================
+
 function resetResult() {
 
-  result.classList.remove("show");
+  result.classList.remove(
+    "show"
+  );
 
-  links.innerHTML = "";
+  links.innerHTML =
+    "";
 
-  thumbnail.removeAttribute("src");
+  thumbnail.removeAttribute(
+    "src"
+  );
 
-  title.textContent = "";
+  title.textContent =
+    "";
 
-  author.textContent = "";
+  author.textContent =
+    "";
 
-  platform.textContent = "";
+  platform.textContent =
+    "";
 
-  duration.textContent = "";
+  duration.textContent =
+    "";
 
-  progress.classList.remove("show");
-
-}
-
-
-function formatDuration(seconds) {
-
-  if (!seconds || isNaN(seconds)) {
-    return "";
-  }
-
-  seconds =
-    Math.floor(Number(seconds));
-
-  const minutes =
-    Math.floor(seconds / 60);
-
-  const remaining =
-    seconds % 60;
-
-  return (
-    minutes +
-    ":" +
-    String(remaining).padStart(2, "0")
+  progress.classList.remove(
+    "show"
   );
 
 }
 
 
-// ==========================================
-// DOWNLOAD USING FETCH + BLOB
-// ==========================================
+// ======================================================
+// DURATION
+// ======================================================
 
-async function downloadFile(item, button) {
+function formatDuration(seconds) {
 
-  if (!item || !item.url) {
+  if (
+    !seconds ||
+    isNaN(seconds)
+  ) {
+
+    return "";
+
+  }
+
+
+  seconds =
+    Math.floor(
+      Number(seconds)
+    );
+
+
+  const minutes =
+    Math.floor(
+      seconds / 60
+    );
+
+
+  const remaining =
+    seconds % 60;
+
+
+  return (
+    minutes +
+    ":" +
+    String(
+      remaining
+    ).padStart(
+      2,
+      "0"
+    )
+  );
+
+}
+
+
+// ======================================================
+// SAFE FILENAME
+// ======================================================
+
+function makeFilename(item) {
+
+  let quality =
+    item.quality ||
+    "video";
+
+
+  quality =
+    quality.replace(
+      /[^a-z0-9_-]/gi,
+      "_"
+    );
+
+
+  let format =
+    item.format ||
+    "mp4";
+
+
+  format =
+    format.replace(
+      /[^a-z0-9]/gi,
+      ""
+    ).toLowerCase();
+
+
+  if (!format) {
+
+    format =
+      "mp4";
+
+  }
+
+
+  return (
+    "VideoSaver_" +
+    quality +
+    "." +
+    format
+  );
+
+}
+
+
+// ======================================================
+// DOWNLOAD
+// ======================================================
+//
+// IMPORTANT:
+//
+// We DO NOT:
+//
+// window.open()
+// window.location.href
+// <a href="TikTok URL">
+//
+// Instead we request our own backend.
+//
+// ======================================================
+
+async function downloadFile(
+  item,
+  button
+) {
+
+  if (
+    !item ||
+    !item.url
+  ) {
 
     showMessage(
       "This quality has no downloadable file.",
@@ -478,25 +839,30 @@ async function downloadFile(item, button) {
     );
 
     return;
+
   }
 
 
-  button.disabled = true;
+  button.disabled =
+    true;
 
   button.textContent =
-    "Downloading...";
+    "Preparing...";
 
 
-  progress.classList.add("show");
+  progress.classList.add(
+    "show"
+  );
 
   progressInner.style.width =
-    "0%";
+    "5%";
 
   progressText.textContent =
-    "Connecting to video server...";
+    "Connecting to download server...";
 
 
   try {
+
 
     const proxyUrl =
       API_BASE +
@@ -506,20 +872,19 @@ async function downloadFile(item, button) {
       );
 
 
-    /*
-     * IMPORTANT:
-     *
-     * We use fetch().
-     *
-     * We DO NOT use:
-     *
-     * window.location.href
-     *
-     * window.open()
-     * 
-     * or a normal <a href>.
-     */
+    progressInner.style.width =
+      "15%";
 
+
+    progressText.textContent =
+      "Starting download...";
+
+
+    // --------------------------------------------------
+    // IMPORTANT:
+    //
+    // This fetches OUR backend, not TikTok/Instagram.
+    // --------------------------------------------------
 
     const response =
       await fetch(
@@ -532,124 +897,56 @@ async function downloadFile(item, button) {
 
     if (!response.ok) {
 
-      let errorMessage =
+      let errorText =
         "Download server returned an error.";
+
 
       try {
 
         const errorData =
           await response.json();
 
-        if (errorData.error) {
-          errorMessage =
+
+        if (
+          errorData &&
+          errorData.error
+        ) {
+
+          errorText =
             errorData.error;
+
         }
 
-      } catch {}
+      } catch {
+
+        // Response wasn't JSON.
+
+      }
+
 
       throw new Error(
-        errorMessage
+        errorText
       );
 
     }
 
 
-    /*
-     * Read the response as a Blob.
-     */
+    // --------------------------------------------------
+    // Read the response ONCE.
+    // --------------------------------------------------
 
-    const contentLength =
-      response.headers.get(
-        "content-length"
+    const blob =
+      await response.blob();
+
+
+    if (
+      !blob ||
+      blob.size === 0
+    ) {
+
+      throw new Error(
+        "The download server returned an empty file."
       );
-
-
-    const total =
-      contentLength
-        ? parseInt(
-            contentLength,
-            10
-          )
-        : 0;
-
-
-    if (!response.body) {
-
-      /*
-       * Fallback if streaming is unavailable.
-       */
-
-      const blob =
-        await response.blob();
-
-      saveBlob(
-        blob,
-        item
-      );
-
-      return;
-    }
-
-
-    const reader =
-      response.body.getReader();
-
-
-    const chunks = [];
-
-    let received = 0;
-
-
-    while (true) {
-
-      const {
-        done,
-        value
-      } =
-        await reader.read();
-
-
-      if (done) {
-        break;
-      }
-
-
-      chunks.push(
-        value
-      );
-
-
-      received +=
-        value.length;
-
-
-      if (total > 0) {
-
-        const percent =
-          Math.round(
-            (received / total) *
-            100
-          );
-
-
-        progressInner.style.width =
-          percent + "%";
-
-
-        progressText.textContent =
-          "Downloading... " +
-          percent +
-          "%";
-
-      } else {
-
-        progressText.textContent =
-          "Downloading... " +
-          formatBytes(
-            received
-          );
-
-      }
 
     }
 
@@ -657,40 +954,69 @@ async function downloadFile(item, button) {
     progressInner.style.width =
       "100%";
 
-
     progressText.textContent =
       "Preparing file...";
 
 
-    /*
-     * Combine chunks.
-     */
+    // --------------------------------------------------
+    // Create local browser download.
+    // --------------------------------------------------
 
-    const blob =
-      new Blob(
-        chunks,
-        {
-          type:
-            response.headers.get(
-              "content-type"
-            ) ||
-            "video/mp4"
-        }
+    const blobUrl =
+      URL.createObjectURL(
+        blob
       );
 
 
-    saveBlob(
-      blob,
-      item
+    const link =
+      document.createElement(
+        "a"
+      );
+
+
+    link.href =
+      blobUrl;
+
+
+    link.download =
+      makeFilename(
+        item
+      );
+
+
+    link.style.display =
+      "none";
+
+
+    document.body.appendChild(
+      link
+    );
+
+
+    link.click();
+
+
+    link.remove();
+
+
+    setTimeout(
+      () => {
+
+        URL.revokeObjectURL(
+          blobUrl
+        );
+
+      },
+      60000
     );
 
 
     progressText.textContent =
-      "Download complete";
+      "Download started";
 
 
     showMessage(
-      "Download completed successfully.",
+      "Download started successfully.",
       "success"
     );
 
@@ -728,164 +1054,23 @@ async function downloadFile(item, button) {
 }
 
 
-// ==========================================
-// SAVE BLOB
-// ==========================================
-
-function saveBlob(blob, item) {
-
-  const blobUrl =
-    URL.createObjectURL(
-      blob
-    );
-
-
-  const link =
-    document.createElement(
-      "a"
-    );
-
-
-  link.href =
-    blobUrl;
-
-
-  link.download =
-    makeFilename(
-      item
-    );
-
-
-  link.style.display =
-    "none";
-
-
-  document.body.appendChild(
-    link
-  );
-
-
-  link.click();
-
-
-  link.remove();
-
-
-  setTimeout(
-    function() {
-
-      URL.revokeObjectURL(
-        blobUrl
-      );
-
-    },
-    60000
-  );
-
-}
-
-
-// ==========================================
-// FILE NAME
-// ==========================================
-
-function makeFilename(item) {
-
-  let quality =
-    item.quality ||
-    "video";
-
-
-  quality =
-    quality.replace(
-      /[^a-z0-9_-]/gi,
-      "_"
-    );
-
-
-  let extension =
-    item.format ||
-    "mp4";
-
-
-  extension =
-    extension
-      .replace(
-        /[^a-z0-9]/gi,
-        ""
-      )
-      .toLowerCase();
-
-
-  if (!extension) {
-    extension = "mp4";
-  }
-
-
-  return (
-    "VideoSaver_" +
-    quality +
-    "." +
-    extension
-  );
-
-}
-
-
-// ==========================================
-// FORMAT BYTES
-// ==========================================
-
-function formatBytes(bytes) {
-
-  if (!bytes) {
-    return "0 B";
-  }
-
-
-  const units = [
-    "B",
-    "KB",
-    "MB",
-    "GB"
-  ];
-
-
-  const index =
-    Math.floor(
-      Math.log(bytes) /
-      Math.log(1024)
-    );
-
-
-  return (
-    (
-      bytes /
-      Math.pow(
-        1024,
-        index
-      )
-    ).toFixed(1) +
-    " " +
-    units[index]
-  );
-
-}
-
-
-// ==========================================
+// ======================================================
 // CREATE DOWNLOAD BUTTON
-// ==========================================
+// ======================================================
 
-function createDownloadButton(item) {
+function createDownloadButton(
+  item
+) {
 
   if (
     !item ||
     !item.url ||
-    typeof item.url !== "string"
+    typeof item.url !==
+      "string"
   ) {
 
     return null;
+
   }
 
 
@@ -932,7 +1117,8 @@ function createDownloadButton(item) {
 
   format.textContent =
     item.format
-      ? " • " + item.format
+      ? " • " +
+        item.format
       : "";
 
 
@@ -965,7 +1151,7 @@ function createDownloadButton(item) {
 
   button.addEventListener(
     "click",
-    function() {
+    () => {
 
       downloadFile(
         item,
@@ -990,9 +1176,9 @@ function createDownloadButton(item) {
 }
 
 
-// ==========================================
+// ======================================================
 // GET VIDEO
-// ==========================================
+// ======================================================
 
 async function getVideo() {
 
@@ -1008,6 +1194,7 @@ async function getVideo() {
     );
 
     return;
+
   }
 
 
@@ -1029,6 +1216,7 @@ async function getVideo() {
 
   try {
 
+
     const endpoint =
       API_BASE +
       "/download?url=" +
@@ -1042,6 +1230,7 @@ async function getVideo() {
         endpoint,
         {
           method: "GET",
+
           headers: {
             "Accept":
               "application/json"
@@ -1050,6 +1239,7 @@ async function getVideo() {
       );
 
 
+    // Read JSON only once.
     const data =
       await response.json();
 
@@ -1074,7 +1264,8 @@ async function getVideo() {
 
     author.textContent =
       data.author
-        ? "By " + data.author
+        ? "By " +
+          data.author
         : "";
 
 
@@ -1094,7 +1285,9 @@ async function getVideo() {
         : "";
 
 
-    if (data.thumbnail) {
+    if (
+      data.thumbnail
+    ) {
 
       thumbnail.style.display =
         "block";
@@ -1133,7 +1326,7 @@ async function getVideo() {
     ) {
 
       throw new Error(
-        "No downloadable video files were returned."
+        "No downloadable files were returned."
       );
 
     }
@@ -1199,9 +1392,9 @@ async function getVideo() {
 }
 
 
-// ==========================================
+// ======================================================
 // EVENTS
-// ==========================================
+// ======================================================
 
 downloadBtn.addEventListener(
   "click",
@@ -1211,7 +1404,7 @@ downloadBtn.addEventListener(
 
 videoUrl.addEventListener(
   "keydown",
-  function(event) {
+  event => {
 
     if (
       event.key === "Enter"
@@ -1228,5 +1421,8 @@ videoUrl.addEventListener(
 
 </script>
 
+
 </body>
+
 </html>
+```
