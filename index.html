@@ -1,1101 +1,963 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="theme-color"
-    content="#2563eb"
-  >
+<meta name="theme-color" content="#2563eb">
 
-  <title>VideoSaver - Video Downloader</title>
+<title>VideoSaver - Video Downloader</title>
 
-  <style>
+<style>
 
-    * {
-      box-sizing: border-box;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    html {
-      -webkit-text-size-adjust: 100%;
-    }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f7fb;
+  color: #111827;
+}
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-      background: #f5f7fb;
-      color: #111827;
-    }
+.container {
+  width: 100%;
+  max-width: 760px;
+  margin: auto;
+  padding: 30px 18px 60px;
+}
 
-    .container {
-      width: 100%;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 30px 18px 60px;
-    }
+.header {
+  text-align: center;
+  margin-bottom: 28px;
+}
 
-    .header {
-      text-align: center;
-      margin-bottom: 28px;
-    }
+.header h1 {
+  margin: 0 0 8px;
+  font-size: 34px;
+}
 
-    .header h1 {
-      margin: 0 0 8px;
-      font-size: 34px;
-      line-height: 1.2;
-    }
+.header p {
+  margin: 0;
+  color: #6b7280;
+}
 
-    .header p {
-      margin: 0;
-      color: #6b7280;
-      font-size: 16px;
-    }
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.08);
+}
 
-    .card {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 22px;
-      box-shadow:
-        0 8px 30px rgba(0, 0, 0, 0.08);
-    }
+.input-row {
+  display: flex;
+  gap: 10px;
+}
 
-    .input-row {
-      display: flex;
-      gap: 10px;
-    }
+#videoUrl {
+  flex: 1;
+  min-width: 0;
+  height: 52px;
+  padding: 0 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+}
 
-    #videoUrl {
-      flex: 1;
-      min-width: 0;
-      height: 52px;
-      padding: 0 16px;
-      border: 1px solid #d1d5db;
-      border-radius: 12px;
-      font-size: 16px;
-      outline: none;
-      background: #ffffff;
-      color: #111827;
-    }
+#videoUrl:focus {
+  border-color: #2563eb;
+}
 
-    #videoUrl:focus {
-      border-color: #2563eb;
-    }
+#downloadBtn {
+  height: 52px;
+  padding: 0 22px;
+  border: none;
+  border-radius: 12px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    #downloadBtn {
-      height: 52px;
-      padding: 0 22px;
-      border: none;
-      border-radius: 12px;
-      background: #2563eb;
-      color: #ffffff;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
-      touch-action: manipulation;
-    }
+#downloadBtn:disabled {
+  opacity: .6;
+}
 
-    #downloadBtn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
+.message {
+  margin-top: 18px;
+  padding: 14px;
+  border-radius: 10px;
+  display: none;
+  font-size: 14px;
+}
 
-    .message {
-      margin-top: 18px;
-      padding: 14px;
-      border-radius: 10px;
-      display: none;
-      line-height: 1.5;
-      font-size: 14px;
-    }
+.message.show {
+  display: block;
+}
 
-    .message.show {
-      display: block;
-    }
+.message.error {
+  background: #fef2f2;
+  color: #991b1b;
+}
 
-    .message.error {
-      background: #fef2f2;
-      color: #991b1b;
-    }
+.message.info {
+  background: #eff6ff;
+  color: #1e40af;
+}
 
-    .message.info {
-      background: #eff6ff;
-      color: #1e40af;
-    }
+.message.success {
+  background: #ecfdf5;
+  color: #065f46;
+}
 
-    .message.success {
-      background: #ecfdf5;
-      color: #065f46;
-    }
+.result {
+  display: none;
+  margin-top: 24px;
+}
 
-    .result {
-      display: none;
-      margin-top: 24px;
-    }
+.result.show {
+  display: block;
+}
 
-    .result.show {
-      display: block;
-    }
+.preview {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 22px;
+}
 
-    .preview {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-      margin-bottom: 22px;
-    }
+.thumbnail {
+  width: 180px;
+  height: 105px;
+  object-fit: cover;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
 
-    .thumbnail {
-      width: 180px;
-      height: 105px;
-      object-fit: cover;
-      border-radius: 12px;
-      background: #e5e7eb;
-      flex-shrink: 0;
-    }
+.title {
+  margin: 0 0 8px;
+  font-size: 19px;
+  line-height: 1.35;
+}
 
-    .details {
-      min-width: 0;
-    }
+.meta {
+  margin: 5px 0;
+  color: #6b7280;
+  font-size: 14px;
+}
 
-    .title {
-      margin: 0 0 8px;
-      font-size: 19px;
-      line-height: 1.35;
-      font-weight: 700;
-      word-break: break-word;
-    }
+.links-title {
+  margin: 20px 0 10px;
+  font-size: 17px;
+  font-weight: bold;
+}
 
-    .meta {
-      margin: 5px 0;
-      color: #6b7280;
-      font-size: 14px;
-      word-break: break-word;
-    }
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-    .links-title {
-      margin: 20px 0 10px;
-      font-size: 17px;
-      font-weight: 700;
-    }
+.download-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 54px;
+  padding: 10px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fafafa;
+  color: #111827;
+  cursor: pointer;
+  touch-action: manipulation;
+}
 
-    .links {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+.download-link:hover {
+  background: #f3f4f6;
+}
 
-    .download-link {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      width: 100%;
-      min-height: 54px;
-      padding: 10px 14px;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      background: #fafafa;
-      text-decoration: none;
-      color: #111827;
-      cursor: pointer;
-      touch-action: manipulation;
-    }
+.quality {
+  font-weight: bold;
+}
 
-    .download-link:active {
-      transform: scale(0.99);
-    }
+.format {
+  color: #6b7280;
+  font-size: 13px;
+  margin-left: 5px;
+}
 
-    .quality {
-      font-weight: 700;
-    }
+.download-action {
+  padding: 9px 14px;
+  border-radius: 9px;
+  background: #2563eb;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+}
 
-    .format {
-      color: #6b7280;
-      font-size: 13px;
-      margin-left: 5px;
-    }
+.download-link.loading {
+  opacity: .65;
+  pointer-events: none;
+}
 
-    .download-action {
-      padding: 9px 14px;
-      border-radius: 9px;
-      background: #2563eb;
-      color: #ffffff;
-      font-size: 14px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
+.empty {
+  padding: 15px;
+  background: #fff7ed;
+  color: #9a3412;
+  border-radius: 10px;
+}
 
-    .empty {
-      padding: 15px;
-      background: #fff7ed;
-      color: #9a3412;
-      border-radius: 10px;
-      line-height: 1.5;
-      font-size: 14px;
-    }
+.footer {
+  text-align: center;
+  margin-top: 25px;
+  color: #9ca3af;
+  font-size: 13px;
+}
 
-    .footer {
-      text-align: center;
-      margin-top: 25px;
-      color: #9ca3af;
-      font-size: 13px;
-    }
+@media (max-width: 600px) {
 
+  .container {
+    padding: 20px 12px 40px;
+  }
 
-    /* MOBILE */
+  .header h1 {
+    font-size: 28px;
+  }
 
-    @media (max-width: 600px) {
+  .card {
+    padding: 16px;
+  }
 
-      .container {
-        padding:
-          20px
-          12px
-          40px;
-      }
+  .input-row {
+    flex-direction: column;
+  }
 
-      .header h1 {
-        font-size: 28px;
-      }
+  #videoUrl,
+  #downloadBtn {
+    width: 100%;
+  }
 
-      .header p {
-        font-size: 14px;
-      }
+  .preview {
+    flex-direction: column;
+  }
 
-      .card {
-        padding: 16px;
-        border-radius: 14px;
-      }
+  .thumbnail {
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+  }
 
-      .input-row {
-        flex-direction: column;
-      }
+  .download-link {
+    min-height: 58px;
+  }
 
-      #videoUrl {
-        width: 100%;
-        height: 52px;
-        font-size: 16px;
-      }
+}
 
-      #downloadBtn {
-        width: 100%;
-        height: 52px;
-      }
-
-      .preview {
-        flex-direction: column;
-      }
-
-      .thumbnail {
-        width: 100%;
-        height: auto;
-        max-height: 250px;
-      }
-
-      .download-link {
-        min-height: 58px;
-        padding: 10px 12px;
-      }
-
-      .download-action {
-        padding:
-          10px
-          12px;
-      }
-
-    }
-
-  </style>
+</style>
 </head>
-
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <div class="header">
+  <div class="header">
+    <h1>VideoSaver</h1>
+    <p>Download videos from supported social platforms</p>
+  </div>
 
-      <h1>VideoSaver</h1>
+  <div class="card">
 
-      <p>
-        Download videos from supported social platforms
-      </p>
+    <div class="input-row">
 
-    </div>
-
-
-    <div class="card">
-
-      <div class="input-row">
-
-        <input
-          id="videoUrl"
-          type="url"
-          placeholder="Paste video URL here..."
-          autocomplete="off"
-          autocapitalize="off"
-          spellcheck="false"
-        >
-
-        <button
-          id="downloadBtn"
-          type="button"
-        >
-          Get Video
-        </button>
-
-      </div>
-
-
-      <div
-        id="message"
-        class="message"
-      ></div>
-
-
-      <div
-        id="result"
-        class="result"
+      <input
+        id="videoUrl"
+        type="url"
+        placeholder="Paste video URL here..."
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
       >
 
-        <div class="preview">
-
-          <img
-            id="thumbnail"
-            class="thumbnail"
-            alt="Video thumbnail"
-          >
-
-          <div class="details">
-
-            <h2
-              id="title"
-              class="title"
-            ></h2>
-
-            <div
-              id="author"
-              class="meta"
-            ></div>
-
-            <div
-              id="platform"
-              class="meta"
-            ></div>
-
-            <div
-              id="duration"
-              class="meta"
-            ></div>
-
-          </div>
-
-        </div>
-
-
-        <div class="links-title">
-          Available downloads
-        </div>
-
-        <div
-          id="links"
-          class="links"
-        ></div>
-
-      </div>
+      <button
+        id="downloadBtn"
+        type="button"
+      >
+        Get Video
+      </button>
 
     </div>
 
+    <div id="message" class="message"></div>
 
-    <div class="footer">
-      VideoSaver
+    <div id="result" class="result">
+
+      <div class="preview">
+
+        <img
+          id="thumbnail"
+          class="thumbnail"
+          alt="Video thumbnail"
+        >
+
+        <div>
+
+          <h2
+            id="title"
+            class="title"
+          ></h2>
+
+          <div
+            id="author"
+            class="meta"
+          ></div>
+
+          <div
+            id="platform"
+            class="meta"
+          ></div>
+
+          <div
+            id="duration"
+            class="meta"
+          ></div>
+
+        </div>
+
+      </div>
+
+      <div class="links-title">
+        Available downloads
+      </div>
+
+      <div
+        id="links"
+        class="links"
+      ></div>
+
     </div>
 
   </div>
 
+  <div class="footer">
+    VideoSaver
+  </div>
 
-  <script>
-
-    // ==========================================
-    // YOUR VERCEL BACKEND
-    // ==========================================
-
-    const API_BASE =
-      "https://video-saver-backend.vercel.app";
+</div>
 
 
-    // ==========================================
-    // ELEMENTS
-    // ==========================================
+<script>
 
-    const videoUrl =
-      document.getElementById(
-        "videoUrl"
+const API_BASE =
+  "https://video-saver-backend.vercel.app";
+
+
+const videoUrl =
+  document.getElementById("videoUrl");
+
+const downloadBtn =
+  document.getElementById("downloadBtn");
+
+const message =
+  document.getElementById("message");
+
+const result =
+  document.getElementById("result");
+
+const thumbnail =
+  document.getElementById("thumbnail");
+
+const title =
+  document.getElementById("title");
+
+const author =
+  document.getElementById("author");
+
+const platform =
+  document.getElementById("platform");
+
+const duration =
+  document.getElementById("duration");
+
+const links =
+  document.getElementById("links");
+
+
+// ========================================
+// MESSAGE
+// ========================================
+
+function showMessage(text, type) {
+
+  message.textContent = text;
+
+  message.className =
+    "message show " + type;
+
+}
+
+
+function hideMessage() {
+
+  message.textContent = "";
+
+  message.className = "message";
+
+}
+
+
+// ========================================
+// RESET
+// ========================================
+
+function resetResult() {
+
+  result.classList.remove("show");
+
+  links.innerHTML = "";
+
+  thumbnail.removeAttribute("src");
+
+  title.textContent = "";
+
+  author.textContent = "";
+
+  platform.textContent = "";
+
+  duration.textContent = "";
+
+}
+
+
+// ========================================
+// DURATION
+// ========================================
+
+function formatDuration(seconds) {
+
+  if (!seconds || isNaN(seconds)) {
+    return "";
+  }
+
+  seconds =
+    Math.floor(Number(seconds));
+
+  const minutes =
+    Math.floor(seconds / 60);
+
+  const remaining =
+    seconds % 60;
+
+  return (
+    minutes +
+    ":" +
+    String(remaining).padStart(2, "0")
+  );
+
+}
+
+
+// ========================================
+// DOWNLOAD THROUGH OUR BACKEND
+// ========================================
+
+async function downloadVideo(item, button) {
+
+  if (
+    !item ||
+    !item.url
+  ) {
+
+    showMessage(
+      "This quality does not have a downloadable file.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  button.classList.add("loading");
+
+  button.querySelector(
+    ".download-action"
+  ).textContent = "Preparing...";
+
+
+  try {
+
+    /*
+     * IMPORTANT:
+     *
+     * We no longer send the user directly
+     * to TikTok/Instagram/Facebook.
+     *
+     * Instead:
+     *
+     * Browser
+     *    ↓
+     * VideoSaver backend
+     *    ↓
+     * Social CDN
+     */
+
+    const proxyUrl =
+      API_BASE +
+      "/proxy?url=" +
+      encodeURIComponent(
+        item.url
       );
 
-    const downloadBtn =
-      document.getElementById(
-        "downloadBtn"
+
+    /*
+     * Navigate to OUR backend.
+     *
+     * The backend sends:
+     *
+     * Content-Disposition:
+     * attachment
+     *
+     * so the browser should download it.
+     */
+
+    window.location.href =
+      proxyUrl;
+
+
+  } catch (error) {
+
+    console.error(
+      "Download error:",
+      error
+    );
+
+    showMessage(
+      "Unable to start the download.",
+      "error"
+    );
+
+    button.classList.remove(
+      "loading"
+    );
+
+    button.querySelector(
+      ".download-action"
+    ).textContent =
+      "Download";
+
+  }
+
+}
+
+
+// ========================================
+// CREATE DOWNLOAD BUTTON
+// ========================================
+
+function createDownloadButton(item) {
+
+  if (
+    !item ||
+    !item.url ||
+    typeof item.url !== "string" ||
+    item.url.trim() === ""
+  ) {
+
+    return null;
+
+  }
+
+
+  const button =
+    document.createElement("div");
+
+
+  button.className =
+    "download-link";
+
+
+  const left =
+    document.createElement("div");
+
+
+  const quality =
+    document.createElement("span");
+
+  quality.className =
+    "quality";
+
+  quality.textContent =
+    item.quality ||
+    "Video";
+
+
+  const format =
+    document.createElement("span");
+
+  format.className =
+    "format";
+
+  format.textContent =
+    item.format
+      ? "• " + item.format
+      : "";
+
+
+  left.appendChild(
+    quality
+  );
+
+  left.appendChild(
+    format
+  );
+
+
+  const action =
+    document.createElement("span");
+
+
+  action.className =
+    "download-action";
+
+
+  action.textContent =
+    "Download";
+
+
+  button.appendChild(
+    left
+  );
+
+  button.appendChild(
+    action
+  );
+
+
+  button.addEventListener(
+    "click",
+    function() {
+
+      downloadVideo(
+        item,
+        button
       );
 
-    const message =
-      document.getElementById(
-        "message"
+    }
+  );
+
+
+  return button;
+
+}
+
+
+// ========================================
+// GET VIDEO
+// ========================================
+
+async function getVideo() {
+
+  const url =
+    videoUrl.value.trim();
+
+
+  if (!url) {
+
+    showMessage(
+      "Please paste a video URL first.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !/^https?:\/\//i.test(url)
+  ) {
+
+    showMessage(
+      "Please enter a valid video URL.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  resetResult();
+
+  hideMessage();
+
+
+  downloadBtn.disabled =
+    true;
+
+  downloadBtn.textContent =
+    "Checking...";
+
+
+  try {
+
+    const endpoint =
+      API_BASE +
+      "/download?url=" +
+      encodeURIComponent(
+        url
       );
 
-    const result =
-      document.getElementById(
-        "result"
-      );
 
-    const thumbnail =
-      document.getElementById(
-        "thumbnail"
-      );
-
-    const title =
-      document.getElementById(
-        "title"
-      );
-
-    const author =
-      document.getElementById(
-        "author"
-      );
-
-    const platform =
-      document.getElementById(
-        "platform"
-      );
-
-    const duration =
-      document.getElementById(
-        "duration"
-      );
-
-    const links =
-      document.getElementById(
-        "links"
+    const response =
+      await fetch(
+        endpoint,
+        {
+          method: "GET",
+          headers: {
+            "Accept":
+              "application/json"
+          }
+        }
       );
 
 
-    // ==========================================
-    // SHOW MESSAGE
-    // ==========================================
+    const data =
+      await response.json();
 
-    function showMessage(
-      text,
-      type = "info"
+
+    if (
+      !response.ok ||
+      data.success === false
     ) {
 
-      message.textContent =
-        text;
+      showMessage(
+        data.error ||
+        "Unable to process this video.",
+        "error"
+      );
 
-      message.className =
-        "message show " + type;
-
-    }
-
-
-    function hideMessage() {
-
-      message.textContent =
-        "";
-
-      message.className =
-        "message";
+      return;
 
     }
 
 
-    // ==========================================
-    // RESET
-    // ==========================================
+    title.textContent =
+      data.title ||
+      "Video";
 
-    function resetResult() {
 
-      result.classList.remove(
+    if (data.author) {
+
+      author.textContent =
+        "By " +
+        data.author;
+
+    }
+
+
+    if (data.platform) {
+
+      platform.textContent =
+        "Platform: " +
+        data.platform;
+
+    }
+
+
+    if (data.duration) {
+
+      duration.textContent =
+        "Duration: " +
+        formatDuration(
+          data.duration
+        );
+
+    }
+
+
+    if (data.thumbnail) {
+
+      thumbnail.src =
+        data.thumbnail;
+
+      thumbnail.onerror =
+        function() {
+
+          thumbnail.style.display =
+            "none";
+
+        };
+
+    } else {
+
+      thumbnail.style.display =
+        "none";
+
+    }
+
+
+    const downloadLinks =
+      Array.isArray(
+        data.downloadLinks
+      )
+        ? data.downloadLinks
+        : [];
+
+
+    const validLinks =
+      downloadLinks.filter(
+        item =>
+          item &&
+          typeof item.url ===
+            "string" &&
+          item.url.trim() !== ""
+      );
+
+
+    if (
+      validLinks.length === 0
+    ) {
+
+      result.classList.add(
         "show"
       );
 
-      links.innerHTML =
-        "";
 
-      thumbnail.removeAttribute(
-        "src"
-      );
-
-      thumbnail.style.display =
-        "";
-
-      title.textContent =
-        "";
-
-      author.textContent =
-        "";
-
-      platform.textContent =
-        "";
-
-      duration.textContent =
-        "";
-
-    }
-
-
-    // ==========================================
-    // FORMAT DURATION
-    // ==========================================
-
-    function formatDuration(
-      seconds
-    ) {
-
-      if (
-        !seconds ||
-        isNaN(seconds)
-      ) {
-        return "";
-      }
-
-      seconds =
-        Math.floor(
-          Number(seconds)
-        );
-
-      const minutes =
-        Math.floor(
-          seconds / 60
-        );
-
-      const remaining =
-        seconds % 60;
-
-      return (
-        minutes +
-        ":" +
-        String(
-          remaining
-        ).padStart(
-          2,
-          "0"
-        )
-      );
-
-    }
-
-
-    // ==========================================
-    // CREATE DOWNLOAD BUTTON
-    // ==========================================
-
-    function createDownloadButton(
-      item
-    ) {
-
-      if (
-        !item ||
-        !item.url ||
-        typeof item.url !== "string" ||
-        item.url.trim() === ""
-      ) {
-
-        return null;
-
-      }
-
-
-      const button =
-        document.createElement(
-          "a"
-        );
-
-
-      button.className =
-        "download-link";
-
-
-      /*
-       * IMPORTANT:
-       *
-       * We do NOT use target="_blank".
-       *
-       * The browser stays on the same page.
-       */
-
-      button.href =
-        item.url;
-
-
-      button.rel =
-        "noopener noreferrer";
-
-
-      /*
-       * This asks supporting browsers
-       * to download the file.
-       *
-       * Some external CDNs may ignore it,
-       * but it is harmless when they do.
-       */
-
-      button.setAttribute(
-        "download",
-        ""
-      );
-
-
-      // LEFT SIDE
-
-      const left =
+      const empty =
         document.createElement(
           "div"
         );
 
 
-      const quality =
-        document.createElement(
-          "span"
-        );
-
-      quality.className =
-        "quality";
-
-      quality.textContent =
-        item.quality ||
-        "Video";
+      empty.className =
+        "empty";
 
 
-      const format =
-        document.createElement(
-          "span"
-        );
+      empty.textContent =
+        "The video was found, but no downloadable file was provided.";
 
-      format.className =
-        "format";
-
-      if (item.format) {
-
-        format.textContent =
-          "• " +
-          item.format;
-
-      }
-
-
-      left.appendChild(
-        quality
-      );
-
-      left.appendChild(
-        format
+      links.appendChild(
+        empty
       );
 
 
-      // RIGHT SIDE
-
-      const action =
-        document.createElement(
-          "span"
-        );
-
-      action.className =
-        "download-action";
-
-      action.textContent =
-        "Download";
-
-
-      button.appendChild(
-        left
-      );
-
-      button.appendChild(
-        action
-      );
-
-
-      return button;
+      return;
 
     }
 
 
-    // ==========================================
-    // LOAD VIDEO
-    // ==========================================
+    validLinks.forEach(
+      item => {
 
-    async function getVideo() {
-
-      const url =
-        videoUrl.value.trim();
-
-
-      if (!url) {
-
-        showMessage(
-          "Please paste a video URL first.",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      if (
-        !/^https?:\/\//i.test(
-          url
-        )
-      ) {
-
-        showMessage(
-          "Please enter a valid video URL.",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      resetResult();
-
-      hideMessage();
-
-
-      downloadBtn.disabled =
-        true;
-
-      downloadBtn.textContent =
-        "Checking...";
-
-
-      try {
-
-        const endpoint =
-          API_BASE +
-          "/download?url=" +
-          encodeURIComponent(
-            url
+        const button =
+          createDownloadButton(
+            item
           );
 
 
-        const response =
-          await fetch(
-            endpoint,
-            {
-              method: "GET",
-              headers: {
-                "Accept":
-                  "application/json"
-              }
-            }
-          );
-
-
-        const data =
-          await response.json();
-
-
-        // ======================================
-        // API ERROR
-        // ======================================
-
-        if (
-          !response.ok ||
-          data.success === false
-        ) {
-
-          let errorText =
-            "Unable to process this video.";
-
-
-          if (
-            typeof data.error ===
-            "string"
-          ) {
-
-            errorText =
-              data.error;
-
-          }
-
-
-          showMessage(
-            errorText,
-            "error"
-          );
-
-          return;
-
-        }
-
-
-        // ======================================
-        // TITLE
-        // ======================================
-
-        title.textContent =
-          data.title ||
-          "Video";
-
-
-        // ======================================
-        // AUTHOR
-        // ======================================
-
-        if (
-          data.author
-        ) {
-
-          author.textContent =
-            "By " +
-            data.author;
-
-        }
-
-
-        // ======================================
-        // PLATFORM
-        // ======================================
-
-        if (
-          data.platform
-        ) {
-
-          platform.textContent =
-            "Platform: " +
-            data.platform;
-
-        }
-
-
-        // ======================================
-        // DURATION
-        // ======================================
-
-        if (
-          data.duration
-        ) {
-
-          duration.textContent =
-            "Duration: " +
-            formatDuration(
-              data.duration
-            );
-
-        }
-
-
-        // ======================================
-        // THUMBNAIL
-        // ======================================
-
-        if (
-          data.thumbnail
-        ) {
-
-          thumbnail.src =
-            data.thumbnail;
-
-          thumbnail.onerror =
-            function() {
-
-              thumbnail.style.display =
-                "none";
-
-            };
-
-        } else {
-
-          thumbnail.style.display =
-            "none";
-
-        }
-
-
-        // ======================================
-        // DOWNLOAD LINKS
-        // ======================================
-
-        const downloadLinks =
-          Array.isArray(
-            data.downloadLinks
-          )
-            ? data.downloadLinks
-            : [];
-
-
-        const validLinks =
-          downloadLinks.filter(
-            item =>
-              item &&
-              typeof item.url ===
-                "string" &&
-              item.url.trim() !== ""
-          );
-
-
-        // ======================================
-        // NO DOWNLOAD LINKS
-        // ======================================
-
-        if (
-          validLinks.length === 0
-        ) {
-
-          result.classList.add(
-            "show"
-          );
-
-
-          const empty =
-            document.createElement(
-              "div"
-            );
-
-
-          empty.className =
-            "empty";
-
-
-          empty.textContent =
-            "The video was found, but this platform did not provide a downloadable file. Please try another public video.";
-
+        if (button) {
 
           links.appendChild(
-            empty
+            button
           );
-
-
-          return;
 
         }
 
-
-        // ======================================
-        // ADD DOWNLOAD BUTTONS
-        // ======================================
-
-        validLinks.forEach(
-          item => {
-
-            const button =
-              createDownloadButton(
-                item
-              );
-
-
-            if (
-              button
-            ) {
-
-              links.appendChild(
-                button
-              );
-
-            }
-
-          }
-        );
-
-
-        result.classList.add(
-          "show"
-        );
-
-
-        showMessage(
-          "Video found. Choose a quality below.",
-          "success"
-        );
-
-
-        // Scroll result into view
-        setTimeout(
-          () => {
-
-            result.scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-            });
-
-          },
-          100
-        );
-
-
-      } catch (
-        error
-      ) {
-
-        console.error(
-          "VideoSaver error:",
-          error
-        );
-
-
-        showMessage(
-          "Could not connect to the VideoSaver server. Please check your internet connection and try again.",
-          "error"
-        );
-
-
-      } finally {
-
-        downloadBtn.disabled =
-          false;
-
-        downloadBtn.textContent =
-          "Get Video";
-
       }
+    );
+
+
+    result.classList.add(
+      "show"
+    );
+
+
+    showMessage(
+      "Video found. Choose a quality below.",
+      "success"
+    );
+
+
+    setTimeout(
+      function() {
+
+        result.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+
+      },
+      100
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "VideoSaver error:",
+      error
+    );
+
+
+    showMessage(
+      "Could not connect to the VideoSaver server. Please try again.",
+      "error"
+    );
+
+
+  } finally {
+
+    downloadBtn.disabled =
+      false;
+
+    downloadBtn.textContent =
+      "Get Video";
+
+  }
+
+}
+
+
+// ========================================
+// BUTTON
+// ========================================
+
+downloadBtn.addEventListener(
+  "click",
+  getVideo
+);
+
+
+// ========================================
+// ENTER KEY
+// ========================================
+
+videoUrl.addEventListener(
+  "keydown",
+  function(event) {
+
+    if (
+      event.key === "Enter"
+    ) {
+
+      event.preventDefault();
+
+      getVideo();
 
     }
 
+  }
+);
 
-    // ==========================================
-    // BUTTON
-    // ==========================================
-
-    downloadBtn.addEventListener(
-      "click",
-      getVideo
-    );
-
-
-    // ==========================================
-    // ENTER KEY
-    // ==========================================
-
-    videoUrl.addEventListener(
-      "keydown",
-      function(event) {
-
-        if (
-          event.key ===
-          "Enter"
-        ) {
-
-          event.preventDefault();
-
-          getVideo();
-
-        }
-
-      }
-    );
-
-
-  </script>
+</script>
 
 </body>
 </html>
